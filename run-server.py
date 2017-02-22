@@ -124,7 +124,7 @@ def getPokemon():
 
     poke_idx = image_pairs[0][1]
     skimage.io.imsave(app.config['pokesFolder'] + str(id) + ".png", origin_pokemons[poke_idx])
-    return redirect("http://127.0.0.1:5000/getpokemon?id=" + str(id), code=302)
+    return redirect("http://olimp-union.com/getpokemon?id=" + str(id), code=302)
 
 
 if __name__ == '__main__':
