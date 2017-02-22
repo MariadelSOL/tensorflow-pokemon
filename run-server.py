@@ -18,7 +18,12 @@ from keras.applications import ResNet50  # resnet50
 app = Flask(__name__)
 app.config['facesFolder'] = 'static/img/faces/'
 app.config['pokesFolder'] = 'static/img/pokes/'
-app.config['preparedFolder'] = 'static/img/prepared/'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def resizePhoto(img):
@@ -62,7 +67,7 @@ def initId():
     # id = len(files)
 
 
-@app.route('/')
+@app.route('/pokemon')
 def main():
     print("it is simple main page")
     return render_template("main.html")
@@ -71,7 +76,7 @@ def main():
 @app.route('/getpokemon', methods=['GET'])
 def redirectToMain():
     if "id" not in request.args:
-        return redirect("http://0.0.0.0:5000", code=302)
+        return redirect("http://olimp-union/pokemon", code=302)
     id = request.args.get('id')
     ctx_params = {'id': id}
     return render_template(
@@ -86,7 +91,8 @@ def getPokemon():
     file = request.files['imagefile']
     if file.filename == '':
         return 'No selected file'
-
+    if not allowed_file(file.filename):
+        return "Wrong file format. Please, try another file http://olimp-union.com/pokemon"
     id = getId()
     file.save(os.path.join(app.config['facesFolder'], str(id) + ".jpg"))
 
@@ -96,14 +102,13 @@ def getPokemon():
     img = resizePhoto(img)
     img = skimage.color.rgb2gray(img)  # make it gray
     img = skimage.color.gray2rgb(img)
-    skimage.io.imsave(app.config['preparedFolder'] + str(id) + '.jpg', img)
     faces.append(img)
     data = np.array(faces).astype(np.float64)
     data = preprocess_input(data)  # classify an image
     faces_len = 1
     prediction_faces = resnet.predict(data).reshape(faces_len, 2048)
 
-    print("count distances")
+    print("Count distances...")
     distances = np.zeros((faces_len, poke_len))
     for face_idx, face in enumerate(prediction_faces):  # this is 1 face
         for poke_idx, poke in enumerate(prediction_poke):
@@ -119,7 +124,7 @@ def getPokemon():
 
     poke_idx = image_pairs[0][1]
     skimage.io.imsave(app.config['pokesFolder'] + str(id) + ".png", origin_pokemons[poke_idx])
-    return redirect("http://0.0.0.0:5000/getpokemon?id=" + str(id), code=302)
+    return redirect("http://127.0.0.1:5000/getpokemon?id=" + str(id), code=302)
 
 
 if __name__ == '__main__':
@@ -128,11 +133,14 @@ if __name__ == '__main__':
     from keras.applications.imagenet_utils import preprocess_input
     initId()
 
-    print("catching pokemons...")
+    print("Сatching pokemons...")
+    totalAmount = len(os.listdir("pokefaces"))
     pokemons = list()
     origin_pokemons = list()
     dir_ = 'pokefaces'
+    i = 0
     for path in os.listdir(dir_):
+        i = i + 1
         path = os.path.join(dir_, path)
         if '.png' not in path:
             continue
@@ -142,12 +150,14 @@ if __name__ == '__main__':
         pokeimg = skimage.color.rgb2gray(pokeimg)
         pokeimg = skimage.color.gray2rgb(pokeimg)
         pokemons.append(pokeimg)
+        if i % 10 == 0:
+            print(str(i) + " of " + str(totalAmount) + " pokemons processed")
+    print("All pokemons processed")
     data = np.array(pokemons).astype(np.float64)
     data = preprocess_input(data)
     poke_len = len(data)
+    print("Resnet is making predictions. It may take few minutes...")
     prediction_poke = resnet.predict(data).reshape(poke_len, 2048)
-    print("pokes tensors")
-    print(prediction_poke)
 
     # np.random.shuffle(image_pairs)
-    app.run(host='0.0.0.0', debug=False)
+    app.run()
