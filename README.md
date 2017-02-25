@@ -3,10 +3,11 @@
 Этот сайт был сделан на хакатоне по машинному обучению.
 
 В его создании принимали участие 
-[Дмитрий Миттов](https://github.com/dmittov)
-[Андрей Евлампиев](https://github.com/andyzt)
-[Никита Путинцев](https://vk.com/id39947099)
-[Людмила Корнилова](https://github.com/kornilova-l)
+
+* [Дмитрий Миттов](https://github.com/dmittov)
+* [Андрей Евлампиев](https://github.com/andyzt)
+* [Никита Путинцев](https://vk.com/id39947099)
+* [Людмила Корнилова](https://github.com/kornilova-l)
 
 ## Как он работает
 
