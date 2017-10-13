@@ -1,5 +1,5 @@
 # TensorPokemon
-Web-service whith matches pictures of people to pictures of pokemons using tensorFlow.
+Web-service which matches pictures of people to pictures of pokemons using tensorFlow.
 ## О проекте
 Этот сайт был сделан на хакатоне по машинному обучению.
 
