@@ -1,6 +1,8 @@
 # TensorPokemon
 Web-service which matches pictures of people with pictures of pokemons using Keras.
 
+Code can be found in [run-server.py](run-server.py).
+
 ## How does it work
 Project uses the high-level neural networks API [Keras](https://keras.io/) and the neural network ResNet which was developed by Microsoft.
 
