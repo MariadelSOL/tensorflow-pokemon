@@ -18,7 +18,7 @@ from keras.applications import ResNet50  # resnet50
 app = Flask(__name__)
 app.config['facesFolder'] = 'static/img/faces/'
 app.config['pokesFolder'] = 'static/img/pokes/'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 # if file has right extension

@@ -1,5 +1,11 @@
 # TensorPokemon
-Web-service which matches pictures of people to pictures of pokemons using tensorFlow.
+Web-service which matches pictures of people with pictures of pokemons using Keras.
+
+## How does it work
+Project uses the high-level neural networks API [Keras](https://keras.io/) and the neural network ResNet which was developed by Microsoft.
+
+On startup neural network computes vectors for all pokemon images. When user uploads new photo, network computes vector for this photo too and compares it to all vectors of pokemon images. It outputs the image which has closes distance to uploaded photo.
+
 ## О проекте
 Этот сайт был сделан на хакатоне по машинному обучению.
 
@@ -11,7 +17,7 @@ Web-service which matches pictures of people to pictures of pokemons using tenso
 * [Людмила Корнилова](https://github.com/kornilova-l)
 
 ## Как он работает
-Сайт использует библиотеку для машнного обучения Keras. Для распознования образов в него загружена нейронная сеть ResNet от компании Microsoft, которая выйграла Imagenet Recognition Challange.
+Сайт использует библиотеку для машнного обучения Keras. Для распознования образов в него загружена нейронная сеть ResNet от компании Microsoft, которая выйграла Imagenet Recognition Challenge.
 
 При запуске кода нейросеть считает вектора всех изображений покемонов и запоминает их. Когда пользователь загружает фотографию, сеть считает ее вектор, сравнивает со всеми векторами покемонов и выбирает то изображение, вектор которого оказался ближе всего к изображению.
 
